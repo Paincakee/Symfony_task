@@ -65,7 +65,10 @@
             </div>
         </div>
     {% endblock %}
-    {% block content %}{% endblock %}
+    <div class="content" style="height: 100vh; width: calc(100%)">
+        {% block content %}{% endblock %}
+    </div>
+
     </div>
 {% endblock %}
 </body>
