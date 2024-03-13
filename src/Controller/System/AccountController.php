@@ -39,7 +39,7 @@ class AccountController extends AbstractController
             $entityManager->flush();
         }
         return $this->render('account/index.html.twig', [
-            'user_form' => $form,
+            'user_form' => $form->createView(),
         ]);
     }
 
