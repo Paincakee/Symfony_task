@@ -1,5 +1,20 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~bootstrap-icons/font/bootstrap-icons.css';
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 .wrapper{
-  display: flex;
+  height: calc(100% - 56px - 1rem);
+}
+
+.side-bar {
+  width: 260px; /* Set the width of the sidebar */
+  height: 100%;
+}
+
+.content {
+  flex-grow: 1; /* Make the content flex item grow to fill the remaining space */
+  background-color: #f8f9fa; /* Just for illustration */
 }
