@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AccountController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register_depracated', name: 'app_register_depracated')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -43,11 +43,4 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/login', name: 'app_login')]
-    public function login(): Response
-    {
-        return $this->render('account/index.html.twig', [
-            'controller_name' => 'AccountController',
-        ]);
-    }
 }
