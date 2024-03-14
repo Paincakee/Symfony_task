@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,6 +40,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'userUuid', orphanRemoval: true)]
+    private Collection $tasksId;
+
+    public function __construct()
+    {
+        $this->tasksId = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -136,5 +146,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasksId(): Collection
+    {
+        return $this->tasksId;
+    }
+
+    public function addTasksId(Task $tasksId): static
+    {
+        if (!$this->tasksId->contains($tasksId)) {
+            $this->tasksId->add($tasksId);
+            $tasksId->setUserUuid($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTasksId(Task $tasksId): static
+    {
+        if ($this->tasksId->removeElement($tasksId)) {
+            // set the owning side to null (unless already changed)
+            if ($tasksId->getUserUuid() === $this) {
+                $tasksId->setUserUuid(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->email;
     }
 }
