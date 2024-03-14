@@ -10,6 +10,21 @@
 
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var taskCollapse = document.getElementById('task-collapse');
+                var taskLink = document.querySelector('[data-bs-target="#task-collapse"]');
+                console.log()
+                taskCollapse.addEventListener('show.bs.collapse', () => {
+                    taskLink.querySelector('.bi-chevron-right').classList.add('bi-chevron-down')
+                    taskLink.querySelector('.bi-chevron-right').classList.remove('bi-chevron-right');
+                })
+                taskCollapse.addEventListener('hide.bs.collapse', () => {
+                    taskLink.querySelector('.bi-chevron-down').classList.add('bi-chevron-right')
+                    taskLink.querySelector('.bi-chevron-down').classList.remove('bi-chevron-down');
+                })
+            });
+        </script>
     {% endblock %}
 </head>
 <body>
@@ -20,7 +35,7 @@
         </button>
         <div class="collapse navbar-collapse" id="collapse-navbar">
             <div class="container-fluid d-flex justify-content-between navbar-nav">
-                <a href="#" class="navbar-brand ms-3"><i class="bi bi-{{ icon }} me-2"></i> {{ title }}</a>
+                <div class="navbar-brand ms-3"><i class="bi bi-{{ icon }} me-2"></i> {{ title }}</div>
                 <form class="d-flex">
                     <input type="search" class="form-control me-2" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-light" type="submit">Search</button>
@@ -39,19 +54,28 @@
                     <a href="{{ path('app_calendar') }}" class="nav-link text-white"><i class="bi bi-calendar me-2"></i> Calendar </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_task') }}" class="nav-link text-white"><i class="bi bi-list-task me-2"></i> Tasks </a>
+                    <a href="#" class="nav-link text-white" data-bs-toggle="collapse" data-bs-target="#task-collapse">
+                        <i class="bi bi-list-task me-2"></i> Task <i class="bi bi-chevron-right ms-auto"></i>
+                    </a>
+                    <div class="collapse" id="task-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="{{ path('app_task_view') }}" class="link-light text-decoration-none ms-4"><i class="bi bi-columns-gap me-2"></i> View </a></li>
+                            <li><a href="{{ path('app_task_create') }}" class="link-light text-decoration-none ms-4"><i class="bi bi-plus-circle-dotted me-2"></i> Create </a></li>
+                        </ul>
+                    </div>
+
                 </li>
             </ul>
             <hr>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="{{ asset('build/images/Richard_Logo.png') }}" alt="pf" class="rounded-circle me-2">
-                    <strong class="me-1">Richard Vullings</strong>
+                    <strong class="me-1">{{ app.user.name }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow p-1" aria-labelledby="dropdownUser">
                     <li><a href="#" class="dropdown-item rounded-1">Settings</a></li>
                     <li><a href="#" class="dropdown-item rounded-1">Account</a></li>
-                    <li><a href="#" class="dropdown-item rounded-1">Logout</a></li>
+                    <li><a href="{{ path('app_logout') }}" class="dropdown-item rounded-1">Logout</a></li>
                 </ul>
             </div>
         </div>
