@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    {{ form_start(taskForm) }}
+    {{ form_row(taskForm.name) }}
+    {{ form_row(taskForm.description) }}
+    {{ form_row(taskForm.userUuid) }}
+
+    <button type="submit" class="btn">Register</button>
+    {{ form_end(taskForm) }}
+{% endblock %}
