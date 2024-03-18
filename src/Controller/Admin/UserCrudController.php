@@ -29,11 +29,11 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             TextField::new('id')->onlyOnIndex(),
+            TextField::new('id')->onlyOnDetail(),
+            ArrayField::new('roles'),
             TextField::new('email'),
             TextField::new('name'),
-            ArrayField::new('roles')->onlyOnIndex()
         ];
-
     }
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void

@@ -4,21 +4,25 @@ namespace App\Controller\taskManagement;
 
 use App\Entity\Task;
 use App\Form\TaskType;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Service\TaskService;
+
 
 class TaskController extends AbstractController
 {
     #[Route('/tasks', name: 'app_task_view')]
-    public function index(): Response
+    public function index(TaskService $taskService): Response
     {
+        $tasks = $taskService->getTasks();
+
         return $this->render('task/index.html.twig', [
             'title' => 'Tasks',
-            'icon' => 'columns-gap'
+            'icon' => 'columns-gap',
+            'tasks' => $tasks
         ]);
     }
 
@@ -36,9 +40,7 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $task->setUser($user);
 
-            // Set the current date and time
-            $currentDateTime = new DateTime();
-            $task->setDate($currentDateTime);
+            $task->setDate(new \DateTime());
             $entityManager->persist($task);
             $entityManager->flush();
 

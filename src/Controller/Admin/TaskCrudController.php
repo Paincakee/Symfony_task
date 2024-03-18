@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Task;
 use App\Entity\User;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -24,13 +25,22 @@ class TaskCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnIndex(),
-            TextField::new('userUuid'),
+            AssociationField::new('user')->onlyOnIndex(),
+            TextField::new('user.id')->onlyOnIndex(),
             TextField::new('name'),
             TextEditorField::new('description'),
-            DateTimeField::new('date_created'),
+            DateTimeField::new('date')->onlyOnIndex(),
+            AssociationField::new('user')->onlyWhenCreating(),
         ];
     }
 
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $entityInstance->setDate(new \DateTime());
+
+        // Call the parent method to persist the entity
+        parent::persistEntity($entityManager, $entityInstance);
+    }
 
 }
 
