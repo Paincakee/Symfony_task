@@ -4,6 +4,7 @@ namespace App\Controller\taskManagement;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,10 +34,15 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $task->setUser($user);
+
+            // Set the current date and time
+            $currentDateTime = new DateTime();
+            $task->setDate($currentDateTime);
             $entityManager->persist($task);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_dashboard');
+            return $this->redirectToRoute('app_task_view');
         }
 
         return $this->render('task/create.html.twig', [

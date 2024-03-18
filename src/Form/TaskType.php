@@ -16,10 +16,11 @@ class TaskType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('userUuid', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'uuid',
-            ])
+//            ->add('userUuid', EntityType::class, [
+//                'class' => User::class,
+//                'choice_label' => 'uuid',
+//
+//            ])
         ;
     }
 

@@ -29,10 +29,6 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $uuid = Uuid::v4();
-            $user->setUuid($uuid);
-
-            $user->setRoles(['ROLE_USER']);
 
             $entityManager->persist($user);
             $entityManager->flush();

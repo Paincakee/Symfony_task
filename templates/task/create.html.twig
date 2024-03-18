@@ -4,8 +4,8 @@
     {{ form_start(taskForm) }}
     {{ form_row(taskForm.name) }}
     {{ form_row(taskForm.description) }}
-    {{ form_row(taskForm.userUuid) }}
+{#    {{ form_row(taskForm.userUuid) }}#}
 
-    <button type="submit" class="btn">Register</button>
+    <button type="submit" class="btn btn-primary">Create</button>
     {{ form_end(taskForm) }}
 {% endblock %}

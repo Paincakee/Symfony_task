@@ -17,15 +17,15 @@ class Task
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tasksId')]
-    #[ORM\JoinColumn(name: 'user_uuid', referencedColumnName: 'uuid', nullable: false)]
-    private ?User $userUuid = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[ORM\JoinColumn(name: 'user_uuid', referencedColumnName: 'id', nullable: false)]
+    private ?User $user = null;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date_created = null;
+    private ?\DateTimeInterface $date = null;
 
     public function getId(): ?int
     {
@@ -44,38 +44,38 @@ class Task
         return $this;
     }
 
-    public function getUserUuid(): ?User
-    {
-        return $this->userUuid;
-    }
-
-    public function setUserUuid(?User $userUuid): static
-    {
-        $this->userUuid = $userUuid;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): static
+    public function setDescription(string $description): static
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getDateCreated(): ?\DateTimeInterface
+    public function getUser(): ?User
     {
-        return $this->date_created;
+        return $this->user;
     }
 
-    public function setDateCreated(\DateTimeInterface $date_created): static
+    public function setUser(?User $user): static
     {
-        $this->date_created = $date_created;
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): static
+    {
+        $this->date = $date;
 
         return $this;
     }
