@@ -29,9 +29,17 @@ class Project
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'project')]
     private Collection $tasks;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $stage = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
+        $this->stage = 'Under construction';
+        $this->date = new \DateTime();
     }
 
     public function getId(): ?int
@@ -108,5 +116,29 @@ class Project
     public function __toString(): string
     {
         return $this->name ?? '';
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): static
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getStage(): ?string
+    {
+        return $this->stage;
+    }
+
+    public function setStage(string $stage): static
+    {
+        $this->stage = $stage;
+
+        return $this;
     }
 }
