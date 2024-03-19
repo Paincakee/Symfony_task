@@ -69,7 +69,7 @@
             <hr>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ asset('build/images/Richard_Logo.png') }}" alt="pf" class="rounded-circle me-2">
+                    <img src="{{ asset('build/img/profiel.png') }}" alt="pf" class="rounded-circle me-2">
                     <strong class="me-1">{{ app.user.name }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow p-1" aria-labelledby="dropdownUser">
@@ -80,7 +80,7 @@
             </div>
         </div>
         <div class="content">
-            <!-- Content to fill the remaining width -->
+            {% block content %} {% endblock %}
         </div>
     </div>
 {% endblock %}

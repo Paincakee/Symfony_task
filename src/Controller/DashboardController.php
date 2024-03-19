@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class DashboardController extends AbstractController
 {
     #[Route('/', name: 'app_dashboard')]
-    #[isGranted(roles: 'ROLE_USER')]
+    #[isGranted(roles: ['ROLE_USER'])]
     public function index(): Response
     {
         return $this->render('dashboard/index.html.twig', [
