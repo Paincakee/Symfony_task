@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Uid\Uuid;
@@ -28,7 +29,7 @@ class TaskCrudController extends AbstractCrudController
             AssociationField::new('user')->onlyOnIndex(),
             TextField::new('user.id')->onlyOnIndex(),
             TextField::new('name'),
-            TextEditorField::new('description'),
+            TextareaField::new('description'),
             DateTimeField::new('date')->onlyOnIndex(),
             AssociationField::new('user')->onlyWhenCreating(),
         ];
