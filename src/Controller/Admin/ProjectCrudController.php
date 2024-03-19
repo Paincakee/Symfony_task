@@ -2,52 +2,36 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Task;
-use App\Entity\User;
-use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Project;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\Uid\Uuid;
 
-class TaskCrudController extends AbstractCrudController
+class ProjectCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Task::class;
+        return Project::class;
     }
+
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            // Index Only
+            // Index only
             IdField::new('id')->onlyOnIndex(),
             AssociationField::new('user')->onlyOnIndex(),
-            AssociationField::new('project')->onlyOnIndex(),
-            DateTimeField::new('date')->onlyOnIndex(),
-            // Creating Only
+            AssociationField::new('tasks'),
+            // Creating only
             AssociationField::new('user')->onlyWhenCreating(),
-            AssociationField::new('project')->onlyWhenCreating(),
             // Updating only
-            //Everywhere
+            // Everywhere
             TextField::new('name'),
             TextareaField::new('description'),
         ];
     }
 
-    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
-        $entityInstance->setDate(new \DateTime());
-
-        // Call the parent method to persist the entity
-        parent::persistEntity($entityManager, $entityInstance);
-    }
-
 }
-
-

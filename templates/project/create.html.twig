@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    {{ form_start(projectForm) }}
+    {{ form_row(projectForm.name) }}
+    {{ form_row(projectForm.description) }}
+    {#    {{ form_row(projectForm.userUuid) }}#}
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    {{ form_end(projectForm) }}
+{% endblock %}

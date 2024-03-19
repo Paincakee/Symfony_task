@@ -4,20 +4,19 @@ namespace App\Controller\taskManagement;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Service\TaskService;
-
 
 class TaskController extends AbstractController
 {
     #[Route('/tasks', name: 'app_task_view')]
-    public function index(TaskService $taskService): Response
+    public function index(TaskRepository $taskRepository): Response
     {
-        $tasks = $taskService->getTasks();
+        $tasks = $taskRepository->findAll();
 
         return $this->render('task/index.html.twig', [
             'title' => 'Tasks',

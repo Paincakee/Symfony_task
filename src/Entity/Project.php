@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\TaskRepository;
+use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TaskRepository::class)]
-class Task
+#[ORM\Entity(repositoryClass: ProjectRepository::class)]
+class Project
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,15 +22,17 @@ class Task
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(name: 'user_uuid', referencedColumnName: 'id', nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'project')]
+    private Collection $tasks;
 
-    #[ORM\ManyToOne(inversedBy: 'tasks')]
-    private ?Project $project = null;
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -71,32 +75,38 @@ class Task
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasks(): Collection
     {
-        return $this->date;
+        return $this->tasks;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function addTask(Task $task): static
     {
-        $this->date = $date;
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+            $task->setProject($this);
+        }
 
         return $this;
     }
 
-    public function getProject(): ?Project
+    public function removeTask(Task $task): static
     {
-        return $this->project;
-    }
-
-    public function setProject(?Project $project): static
-    {
-        $this->project = $project;
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getProject() === $this) {
+                $task->setProject(null);
+            }
+        }
 
         return $this;
     }
 
     public function __toString(): string
     {
-        return $this->name . ' - ' . $this->user;
+        return $this->name ?? '';
     }
 }
