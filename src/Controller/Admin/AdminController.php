@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Project;
 use App\Entity\Task;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -44,7 +45,7 @@ class AdminController extends AbstractDashboardController
     {
         yield MenuItem::linkToRoute('Dashboard','fa fa-home', 'app_dashboard');
         yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
-        yield MenuItem::linkToCrud('Tasks', 'fa fa-list-check', Task::class);
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToCrud('Projects', 'fa fa-folder-open', Project::class);
+        yield MenuItem::linkToCrud('Tasks', 'fa fa-tasks', Task::class);
     }
 }

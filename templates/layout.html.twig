@@ -55,12 +55,12 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link text-white" data-bs-toggle="collapse" data-bs-target="#task-collapse">
-                        <i class="bi bi-list-task me-2"></i> Task <i class="bi bi-chevron-right ms-auto"></i>
+                        <i class="bi bi-folder2-open me-2"></i> Project <i class="bi bi-chevron-right ms-auto"></i>
                     </a>
                     <div class="collapse" id="task-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="{{ path('app_task_view') }}" class="link-light text-decoration-none ms-4"><i class="bi bi-columns-gap me-2"></i> View </a></li>
-                            <li><a href="{{ path('app_task_create') }}" class="link-light text-decoration-none ms-4"><i class="bi bi-plus-circle-dotted me-2"></i> Create </a></li>
+                            <li><a href="{{ path('app_project_view') }}" class="link-light text-decoration-none ms-4"><i class="bi bi-columns-gap me-2"></i> View </a></li>
+                            <li><a href="{{ path('app_project_create') }}" class="link-light text-decoration-none ms-4"><i class="bi bi-plus-circle-dotted me-2"></i> Create </a></li>
                         </ul>
                     </div>
 
@@ -69,7 +69,7 @@
             <hr>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ asset('build/img/profiel.png') }}" alt="pf" class="rounded-circle me-2">
+                    <img src="{{ asset('assets/image/profiel.png') }}" alt="pf" class="rounded-circle me-2">
                     <strong class="me-1">{{ app.user.name }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow p-1" aria-labelledby="dropdownUser">
