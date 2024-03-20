@@ -24,11 +24,11 @@
         </div>
 
         <div class="tab-content flex-grow-1 ms-3 me-3 mb-3 ">
-            <div class="tab-pane fade show active h-100 bg-dark overflow-y-auto p-3 text-white" id="tasks" >
+            <div class="tab-pane show active h-100 bg-dark overflow-y-auto p-3 text-white" id="tasks" >
                 {% include 'project/_tasks.html.twig' with {'project': project} %}
             </div>
-            <div class="tab-pane fade-in-right h-100 bg-dark overflow-y-auto p-3 text-white" id="members" >
-                {% include 'project/_members.html.twig' %}
+            <div class="tab-pane h-100 bg-dark overflow-y-auto p-3 text-white" id="members" >
+                {% include 'project/_members.html.twig' with {'project': project} %}
             </div>
         </div>
 

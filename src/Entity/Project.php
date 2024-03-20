@@ -35,11 +35,15 @@ class Project
     #[ORM\Column(length: 255)]
     private ?string $stage = null;
 
+    #[ORM\ManyToMany(targetEntity: user::class)]
+    private Collection $members;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
         $this->stage = 'Under construction';
         $this->date = new \DateTime();
+        $this->members = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -138,6 +142,30 @@ class Project
     public function setStage(string $stage): static
     {
         $this->stage = $stage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, user>
+     */
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
+
+    public function addMember(user $member): static
+    {
+        if (!$this->members->contains($member)) {
+            $this->members->add($member);
+        }
+
+        return $this;
+    }
+
+    public function removeMember(user $member): static
+    {
+        $this->members->removeElement($member);
 
         return $this;
     }
