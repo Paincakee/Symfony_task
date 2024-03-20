@@ -32,6 +32,8 @@ class ProjectCrudController extends AbstractCrudController
             // Everywhere
             TextField::new('name'),
             TextareaField::new('description'),
+            AssociationField::new('members')
+
         ];
     }
 
