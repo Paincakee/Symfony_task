@@ -76,7 +76,7 @@ class ProjectController extends AbstractController
         }
 
         // Render the project detail view
-        return $this->render('project/detail.html.twig', [
+        return $this->render('project/view.html.twig', [
             'project' => $project,
             'title' => 'Tasks',
             'icon' => 'columns-gap',

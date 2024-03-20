@@ -1,0 +1,18 @@
+ <table id="task-table" class="table table-dark table-hover">
+        <thead class="align-middle">
+        <tr>
+            <th data-field="name" class="fs-5">task Name <i class="bi bi-arrows-vertical"></i></th>
+            <th data-field="user" class="fs-5">Creator <i class="bi bi-arrows-vertical"></i></th>
+            <th data-field="createdDate" class="fs-5">Created date <i class="bi bi-arrows-vertical"></i></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for task in project.tasks %}
+            <tr class="row-task bg-dark border-bottom border-dark-subtle mb-2">
+                <td class="task-name">{{ task.name }}</td>
+                <td class="task-creator">{{ task.user.name }}</td>
+                <td class="task-date">{{ task.date|date('Y-m-d H:m:s') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+ </table>

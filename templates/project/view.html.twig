@@ -1,0 +1,36 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="container-fluid h-100 d-flex flex-column p-0">
+        <div class="bg-dark m-3 text-white p-2 d-flex">
+            <div class="container-fluid">
+                <h1 class="fs-5">{{ project.name }}</h1>
+                <h2 class="fs-6">{{ project.user.name }}</h2>
+            </div>
+            <div class="container-fluid d-flex justify-content-end align-items-center">
+                <a href="{{ url('app_task_create', {'id': project.id} ) }}" class="btn btn-outline-light"><i class="bi bi-file-earmark-plus me-2"></i>Create task</a>
+            </div>
+
+        </div>
+        <div class="ms-3 me-3">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a href="#tasks" class="nav-link active text-white" id="task-tab" data-bs-toggle="tab" data-bs-target="#tasks">Tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#members" class="nav-link text-white " id="member-tab" data-bs-toggle="tab" data-bs-target="#members">Members</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content flex-grow-1 ms-3 me-3 mb-3 ">
+            <div class="tab-pane fade show active h-100 bg-dark overflow-y-auto p-3 text-white" id="tasks" >
+                {% include 'project/_tasks.html.twig' with {'project': project} %}
+            </div>
+            <div class="tab-pane fade-in-right h-100 bg-dark overflow-y-auto p-3 text-white" id="members" >
+                {% include 'project/_members.html.twig' %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

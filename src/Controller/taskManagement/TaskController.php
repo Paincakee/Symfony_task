@@ -33,8 +33,8 @@ class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/task_create', name: 'app_task_create')]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/task_create/{id}', name: 'app_task_create')]
+    public function create(Request $request, EntityManagerInterface $entityManager, $id): Response
     {
         if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) return $this->redirectToRoute('app_login');
 
