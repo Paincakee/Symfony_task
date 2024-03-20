@@ -7,15 +7,23 @@ use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class TaskController extends AbstractController
 {
+    private $security;
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
     #[Route('/tasks', name: 'app_task_view')]
     public function index(TaskRepository $taskRepository): Response
     {
+        if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) return $this->redirectToRoute('app_login');
+
         $tasks = $taskRepository->findAll();
 
         return $this->render('task/index.html.twig', [
@@ -28,6 +36,8 @@ class TaskController extends AbstractController
     #[Route('/task_create', name: 'app_task_create')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) return $this->redirectToRoute('app_login');
+
         // Get the current user
         $user = $this->getUser();
 

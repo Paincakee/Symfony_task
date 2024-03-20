@@ -7,6 +7,7 @@ use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,9 +15,16 @@ use App\Service\ProjectHelper;
 
 class ProjectController extends AbstractController
 {
+    private $security;
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
     #[Route('/project', name: 'app_project_view')]
     public function index(projectHelper $projectHelper): Response
     {
+        if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) return $this->redirectToRoute('app_login');
+
         $user = $this->getUser();
         $projects = $projectHelper->GetProjectsByUser($user);
 
@@ -30,6 +38,8 @@ class ProjectController extends AbstractController
     #[Route('/project-create', name: 'app_project_create')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) return $this->redirectToRoute('app_login');
+
         $user = $this->getUser();
 
         $project = new Project();
