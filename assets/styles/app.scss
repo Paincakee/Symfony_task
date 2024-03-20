@@ -18,3 +18,29 @@ html, body {
   flex-grow: 1; /* Make the content flex item grow to fill the remaining space */
   background-color: #f1f1f1; /* Just for illustration */
 }
+
+/* Custom CSS to change active tab color */
+.nav-tabs .nav-link.active {
+  background-color: #212529 !important;
+  color: #fff !important;
+  border-color: #343a40 !important;
+  border-bottom: none !important;
+  &:hover{
+    background-color: #212529 !important;
+    border-color: #343a40 !important;
+  }
+
+}
+.nav-tabs .nav-link {
+  border-color: #ced4da !important;
+  background-color: #ced4da !important;
+  border-radius: 0px;
+  &:hover{
+    background-color: #212529 !important;
+    border-color: #343a40 !important;
+  }
+}
+
+.nav-tabs{
+  border-bottom: none !important;
+}

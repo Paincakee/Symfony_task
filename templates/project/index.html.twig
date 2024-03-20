@@ -21,7 +21,7 @@
                 </thead>
                 <tbody>
                 {% for project in projects %}
-                    <tr class="row-project bg-dark" onclick="window.location='{{ url('app_project_detail', {'id': project.id}) }}';" style="cursor: pointer;">
+                    <tr class="row-project bg-dark" onclick="window.location='{{ url('app_project_detail', {'id': project.id}) ~ '#tasks'}}';" style="cursor: pointer;">
                         <td class="project-name">{{ project.name }}</td>
                         <td class="project-creator">{{ project.user.name }}</td>
                         <td class="project-stage"><span class="p-2 rounded-3">{{ project.stage }}</span></td>
