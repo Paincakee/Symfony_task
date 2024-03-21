@@ -3,8 +3,10 @@
 namespace App\Controller\taskManagement;
 
 use App\Entity\Task;
-use App\Form\TaskType;
+use App\Form\task\TaskCreateType;
+use App\Form\task\TaskUpdateType;
 use App\Repository\TaskRepository;
+use App\Service\TaskService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -19,21 +21,21 @@ class TaskController extends AbstractController
     {
         $this->security = $security;
     }
-    #[Route('/tasks', name: 'app_task_view')]
-    public function index(TaskRepository $taskRepository): Response
+    #[Route('/task/{id}', name: 'app_task_view')]
+    public function index(TaskService $taskService, $id, ): Response
     {
         if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) return $this->redirectToRoute('app_login');
 
-        $tasks = $taskRepository->findAll();
+        $task = $taskService->getTaskById($id);
 
-        return $this->render('task/index.html.twig', [
-            'title' => 'Tasks',
+        return $this->render('task/detail.html.twig', [
+            'title' => $task->getName(),
             'icon' => 'columns-gap',
-            'tasks' => $tasks
+            'task' => $task
         ]);
     }
 
-    #[Route('/task_create/{id}', name: 'app_task_create')]
+    #[Route('/task-create/{id}', name: 'app_task_create')]
     public function create(Request $request, EntityManagerInterface $entityManager, $id): Response
     {
         if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) return $this->redirectToRoute('app_login');
@@ -43,7 +45,7 @@ class TaskController extends AbstractController
 
         $task = new Task();
 
-        $form = $this->createForm(TaskType::class, $task);
+        $form = $this->createForm(TaskCreateType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -59,6 +61,36 @@ class TaskController extends AbstractController
         return $this->render('task/create.html.twig', [
             'title' => 'Create task',
             'icon' => 'plus-circle-dotted',
+            'taskForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/task-update/{id}', name: 'app_task_update')]
+    public function update(EntityManagerInterface $entityManager, Request $request, $id, TaskService $taskService): Response
+    {
+        if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) return $this->redirectToRoute('app_login');
+
+        $user = $this->getUser();
+
+        $task = $taskService->getTaskById($id);
+
+        if ($task->getUser()!== $user && $task->getProject()->getUser() !== $user) throw $this->createNotFoundException('You are not authorized to update this task.');
+
+        $form = $this->createForm(TaskUpdateType::class, $task);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task = $form->getData();
+
+            $entityManager->persist($task);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_project_detail', ['id' => $task->getProject()->getId()]);
+        }
+
+        return $this->render('task/update.html.twig', [
+            'title' => 'Update task',
+            'icon' => 'pencil',
             'taskForm' => $form->createView(),
         ]);
     }

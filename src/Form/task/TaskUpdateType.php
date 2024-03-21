@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\task;
 
+use App\Entity\Project;
 use App\Entity\Task;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -9,18 +10,17 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TaskType extends AbstractType
+class TaskUpdateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name')
             ->add('description')
-//            ->add('userUuid', EntityType::class, [
-//                'class' => User::class,
-//                'choice_label' => 'uuid',
-//
-//            ])
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'name',
+            ])
         ;
     }
 

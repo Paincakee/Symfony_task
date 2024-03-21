@@ -2,13 +2,12 @@
 
 {% block content %}
     <div class="container-fluid h-100 d-flex flex-column p-0">
-        <div class="bg-dark m-3 text-white p-2 d-flex">
-            <div class="container-fluid">
-                <h1 class="fs-5">{{ project.name }}</h1>
-                <h2 class="fs-6">{{ project.user.name }}</h2>
+        <div class="row m-3 justify-content-between w-50">
+            <div class="col-4 bg-dark text-white p-1 d-flex align-items-center justify-content-center rounded-2">
+                <h1 class="fs-5 m-0">{{ project.name }}</h1>
             </div>
-            <div class="container-fluid d-flex justify-content-end align-items-center">
-                <a href="{{ url('app_task_create', {'id': project.id} ) }}" class="btn btn-outline-light"><i class="bi bi-file-earmark-plus me-2"></i>Create task</a>
+            <div class="col-4 bg-dark text-white p-1 d-flex align-items-center justify-content-center rounded-2">
+                <h1 class="fs-5 m-0">{{ project.user.email }}</h1>
             </div>
 
         </div>

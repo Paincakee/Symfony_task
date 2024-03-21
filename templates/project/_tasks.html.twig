@@ -4,15 +4,18 @@
             <th data-field="name" class="fs-5">task Name <i class="bi bi-arrows-vertical"></i></th>
             <th data-field="user" class="fs-5">Creator <i class="bi bi-arrows-vertical"></i></th>
             <th data-field="createdDate" class="fs-5">Created date <i class="bi bi-arrows-vertical"></i></th>
+            <th data-field="createdDate" class="fs-5"><a href="{{ url('app_task_create', {'id': project.id} ) }}" class="btn btn-outline-light d-flex align-items-center w-75 "><i class="bi bi-file-earmark-plus me-2 fs-5"></i><h1 class="fs-5 m-0 text-center">Task</h1></a></th>
         </tr>
         </thead>
         <tbody>
         {% for task in project.tasks %}
-            <tr class="row-task bg-dark border-bottom border-dark-subtle mb-2">
+            <tr class="row-task bg-dark border-bottom border-dark-subtle mb-2" onclick="window.location.href = '{{ url('app_task_view', {'id': task.id}) }}';">
                 <td class="task-name">{{ task.name }}</td>
                 <td class="task-creator">{{ task.user.name }}</td>
                 <td class="task-date">{{ task.date|date('Y-m-d H:m:s') }}</td>
+                <td class="task-edit align-middle"><a href="{{ url('app_task_update', {'id': task.id}) }}" class="btn btn-outline-light pt-0 pb-0"><i class="bi bi-three-dots"></i></a></td>
             </tr>
+
         {% endfor %}
         </tbody>
  </table>
