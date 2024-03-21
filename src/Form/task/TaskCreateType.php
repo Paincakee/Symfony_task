@@ -15,8 +15,6 @@ class TaskCreateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
-
         $builder
             ->add('name')
             ->add('description')
@@ -35,7 +33,6 @@ class TaskCreateType extends AbstractType
                 $form->remove('user');
             }
         });
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
