@@ -44,3 +44,17 @@ html, body {
 .nav-tabs{
   border-bottom: none !important;
 }
+
+.person-block{
+  .icon-block{
+    height: 70px;
+    width: 70px;
+    background-color: #0e1011;
+    color: #ffffff;
+  }
+  .name-block{
+    height: 70px;
+    background-color: #fff9f9;
+    color: #000000;
+  }
+}
