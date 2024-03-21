@@ -1,20 +1,35 @@
-<table id="member-table" class="table table-dark table-hover">
-    <thead class="align-middle">
-    <tr>
-        <th data-field="name" class="fs-5"></th>
-        <th data-field="name" class="fs-5">Name <i class="bi bi-arrows-vertical"></i></th>
-        <th data-field="user" class="fs-5">Email <i class="bi bi-arrows-vertical"></i></th>
+{#<table id="member-table" class="table table-dark table-hover">#}
+{#    <thead class="align-middle">#}
+{#    <tr>#}
+{#        <th data-field="name" class="fs-5"></th>#}
+{#        <th data-field="name" class="fs-5">Name <i class="bi bi-arrows-vertical"></i></th>#}
+{#        <th data-field="user" class="fs-5">Email <i class="bi bi-arrows-vertical"></i></th>#}
 {#        <th data-field="createdDate" class="fs-5">Created date <i class="bi bi-arrows-vertical"></i></th>#}
-    </tr>
-    </thead>
-    <tbody>
-    {% for member in project.members %}
-        <tr class="row-member bg-dark border-bottom border-dark-subtle mb-2 align-middle">
-            <td class="member-img"><img src="{{ asset('assets/image/profiel.png') }}" alt="pf" class="rounded-circle me-2"></td>
-            <td class="member-name">{{ member.name }}</td>
-            <td class="member-email">{{ member.email }}</td>
+{#    </tr>#}
+{#    </thead>#}
+{#    <tbody>#}
+{#    {% for member in project.members %}#}
+{#        <tr class="row-member bg-dark border-bottom border-dark-subtle mb-2 align-middle">#}
+{#            <td class="member-img"><img src="{{ asset('assets/image/profiel.png') }}" alt="pf" class="rounded-circle me-2"></td>#}
+{#            <td class="member-name">{{ member.name }}</td>#}
+{#            <td class="member-email">{{ member.email }}</td>#}
 {#            <td class="member-date">{{ member.roles }}</td>#}
-        </tr>
+{#        </tr>#}
+{#    {% endfor %}#}
+{#    </tbody>#}
+{#</table>#}
+<div class="container-fluid">
+    <div class="row">
+    {% for member in project.members %}
+        <div class="col-auto m-3 d-flex person-block p-0">
+            <div class="icon-block d-flex align-items-center justify-content-center">
+                <i class="bi bi-person fs-3 person-icon"></i>
+            </div>
+            <div class="name-block d-flex align-items-center p-3 justify-content-center">
+                {{ member.name }}
+            </div>
+        </div>
     {% endfor %}
-    </tbody>
-</table>
+</div>
+</div>
+
