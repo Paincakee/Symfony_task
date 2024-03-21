@@ -1,0 +1,31 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+{#    {{ form_start(taskForm) }}#}
+{#    {{ form_row(taskForm.name) }}#}
+{#    {{ form_row(taskForm.description) }}#}
+{#    <button type="submit" class="btn btn-primary">Create</button>#}
+{#    {{ form_end(taskForm) }}#}
+    <div class="container-fluid h-100 d-flex align-items-center justify-content-center">
+
+        {{ form_start(taskForm, {'attr': {'class': 'bg-dark p-4 text-white rounded-2'}}) }}
+        <h1 class="text-center border-bottom pb-3 m-0">Update Task</h1>
+        <div class="row mt-3">
+            <div class="form-group col-6">
+                {{ form_label(taskForm.name, 'Task name', {'label_attr': {'class': 'form-label '}}) }}
+                {{ form_widget(taskForm.name, {'attr': {'class': 'form-control', 'placeholder': 'Routing system'}}) }}
+            </div>
+            <div class="form-group col-6">
+                {{ form_label(taskForm.user, 'User', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(taskForm.user, {'attr': {'class': 'form-select'}}) }}
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            {{ form_label(taskForm.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(taskForm.description, {'attr': {'class': 'form-control', 'rows': '3'}}) }}
+        </div>
+        <button type="submit" class="btn btn-outline-light mt-3">Update</button>
+        {{ form_end(taskForm) }}
+    </div>
+
+{% endblock %}
