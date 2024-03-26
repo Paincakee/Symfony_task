@@ -3,30 +3,32 @@
 namespace App\Controller\projectManagement;
 
 use App\Entity\Project;
-use App\Form\ProjectType;
+use App\Form\project\ProjectCreateType;
 use App\Repository\ProjectRepository;
+use App\Service\ProjectService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Service\ProjectHelper;
 
 class ProjectController extends AbstractController
 {
     private $security;
-    public function __construct(Security $security)
+    private ProjectService $projectService;
+    public function __construct(Security $security, projectService $projectService)
     {
         $this->security = $security;
+        $this->projectService = $projectService;
     }
     #[Route('/project', name: 'app_project_view')]
-    public function index(projectHelper $projectHelper): Response
+    public function index(): Response
     {
         if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) return $this->redirectToRoute('app_login');
 
         $user = $this->getUser();
-        $projects = $projectHelper->GetProjectsByUser($user);
+        $projects = $this->projectService->GetProjectsByUser($user);
 
         return $this->render('project/index.html.twig', [
             'title' => 'Tasks',
@@ -44,7 +46,7 @@ class ProjectController extends AbstractController
 
         $project = new Project();
 
-        $form = $this->createForm(ProjectType::class, $project);
+        $form = $this->createForm(ProjectCreateType::class, $project);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -68,15 +70,24 @@ class ProjectController extends AbstractController
     public function view($id, ProjectRepository $projectRepository): Response
     {
         // Fetch the project by id
-        $project = $projectRepository->find($id);
-
-        // Check if the project exists
-        if (!$project) {
-            throw $this->createNotFoundException('Project not found');
-        }
+        $project = $this->projectService->getProjectById($id);
 
         // Render the project detail view
         return $this->render('project/detail.html.twig', [
+            'project' => $project,
+            'title' => 'Tasks',
+            'icon' => 'columns-gap',
+        ]);
+
+    }
+    #[Route('/project-edit/{id}', name: 'app_project_edit')]
+    public function edit($id, ProjectRepository $projectRepository): Response
+    {
+        if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) return $this->redirectToRoute('app_login');
+        $project = $projectRepository->find($id);
+
+        // Render the project detail view
+        return $this->render('project/edit.html.twig', [
             'project' => $project,
             'title' => 'Tasks',
             'icon' => 'columns-gap',
