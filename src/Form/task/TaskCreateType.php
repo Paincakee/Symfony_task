@@ -9,6 +9,7 @@ use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\DependencyInjection\Tests\E;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -32,6 +33,16 @@ class TaskCreateType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ])
+            ->add('priority', ChoiceType::class, [
+                'choices' => [
+                    'High' => 'High',
+                    'Medium' => 'Medium',
+                    'Low' => 'Low',
+                ],
+                // Optionally, you can set other properties like label and required
+                'label' => 'Priority',
+                'required' => true,
+            ]);
         ;
     }
 

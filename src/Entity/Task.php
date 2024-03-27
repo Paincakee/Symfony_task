@@ -36,6 +36,9 @@ class Task
     #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'tasks')]
     private Collection $categories;
 
+    #[ORM\Column(length: 255)]
+    private ?string $priority = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -132,6 +135,18 @@ class Task
     public function removeCategory(Categories $category): static
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getPriority(): ?string
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(string $priority): static
+    {
+        $this->priority = $priority;
 
         return $this;
     }
