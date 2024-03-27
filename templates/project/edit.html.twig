@@ -1,5 +1,11 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-
+    {{ form_start(projectForm) }}
+    {{ form_widget(projectForm.name) }}
+    {{ form_widget(projectForm.description) }}
+    {{ form_widget(projectForm.stage) }}
+    {{ form_widget(projectForm.members) }}
+    <button type="submit" class="btn btn-success">Save</button>
+    {{ form_end(projectForm) }}
 {% endblock %}

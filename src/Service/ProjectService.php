@@ -33,4 +33,15 @@ class ProjectService
 
         return $project;
     }
+
+    public function getUsersById($id): array
+    {
+        $project = $this->projectRepository->find($id);
+
+        $users = $project->getUser();
+
+        if (!$project) return throw new NotFoundHttpException('Project not found');
+
+        return $project;
+    }
 }

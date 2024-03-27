@@ -20,15 +20,12 @@ class ProjectEditType extends AbstractType
             ->add('description', null, [
                 'required' => true,
             ])
-            ->add('date', null, [
-                'widget' => 'single_text',
-                'required' => true,
-            ])
             ->add('stage')
             ->add('members', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'email',
                 'multiple' => true,
+                'expanded' => true,
                 'required' => true,
             ])
         ;

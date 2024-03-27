@@ -4,8 +4,10 @@ namespace App\Controller\projectManagement;
 
 use App\Entity\Project;
 use App\Form\project\ProjectCreateType;
+use App\Form\project\ProjectEditType;
 use App\Repository\ProjectRepository;
 use App\Service\ProjectService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -81,14 +83,26 @@ class ProjectController extends AbstractController
 
     }
     #[Route('/project-edit/{id}', name: 'app_project_edit')]
-    public function edit($id, ProjectRepository $projectRepository): Response
+    public function edit($id, ProjectRepository $projectRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         if (!$this->security->isGranted('IS_AUTHENTICATED_FULLY')) return $this->redirectToRoute('app_login');
         $project = $projectRepository->find($id);
 
+        $form = $this->createForm(ProjectEditType::class, $project);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $project = $form->getData();
+
+            $entityManager->persist($project);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_project_view');
+        }
+
         // Render the project detail view
         return $this->render('project/edit.html.twig', [
-            'project' => $project,
+            'projectForm' => $form->createView(),
             'title' => 'Tasks',
             'icon' => 'columns-gap',
         ]);
