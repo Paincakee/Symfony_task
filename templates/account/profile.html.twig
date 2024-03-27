@@ -1,0 +1,26 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">User Profile</div>
+                    <div class="card-body">
+                        {{ form_start(profileForm) }}
+                        <div class="mb-3">
+                            {{ form_label(profileForm.name, 'Name', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(profileForm.name, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(profileForm.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(profileForm.email, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <button class="btn btn-success" type="submit">Save</button>
+                        {{ form_end(profileForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
