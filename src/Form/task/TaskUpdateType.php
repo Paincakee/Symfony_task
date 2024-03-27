@@ -2,7 +2,7 @@
 
 namespace App\Form\task;
 
-use App\Entity\Project;
+use App\Entity\Categories;
 use App\Entity\Task;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,6 +20,12 @@ class TaskUpdateType extends AbstractType
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'name',
+            ])
+            ->add('categories', EntityType::class, [
+                'class' => Categories::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
             ])
         ;
     }

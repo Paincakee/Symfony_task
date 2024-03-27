@@ -32,16 +32,16 @@ class Project
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $stage = null;
-
     #[ORM\ManyToMany(targetEntity: user::class)]
     private Collection $members;
+
+    #[ORM\ManyToOne(inversedBy: 'projects')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Status $status = null;
 
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
-        $this->stage = 'Under construction';
         $this->date = new \DateTime();
         $this->members = new ArrayCollection();
     }
@@ -134,18 +134,6 @@ class Project
         return $this;
     }
 
-    public function getStage(): ?string
-    {
-        return $this->stage;
-    }
-
-    public function setStage(string $stage): static
-    {
-        $this->stage = $stage;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, user>
      */
@@ -169,4 +157,17 @@ class Project
 
         return $this;
     }
+
+    public function getStatus(): ?status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
 }

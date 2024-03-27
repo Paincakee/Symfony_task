@@ -2,9 +2,12 @@
 
 namespace App\Form\task;
 
+use App\Entity\Categories;
+use App\Entity\Category;
 use App\Entity\Task;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\DependencyInjection\Tests\E;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -22,17 +25,14 @@ class TaskCreateType extends AbstractType
                 'class' => User::class,
                 'choice_label' => 'email',
 
-            ]);
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
-            $data = $event->getData();
-
-            // Check if the form data is null or if it doesn't have a user property
-            if (null === $data || !property_exists($data, 'user')) {
-                // If so, remove the user field from the form
-                $form->remove('user');
-            }
-        });
+            ])
+            ->add('categories', EntityType::class, [
+                'class' => Categories::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
