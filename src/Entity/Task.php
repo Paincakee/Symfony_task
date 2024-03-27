@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\TaskRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use function Symfony\Component\Translation\t;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
@@ -29,6 +32,15 @@ class Task
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     private ?Project $project = null;
+
+    #[ORM\OneToMany(targetEntity: TaskCategories::class, mappedBy: 'taskId', orphanRemoval: true)]
+    private Collection $categories;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+        $this->categories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -98,5 +110,35 @@ class Task
     public function __toString(): string
     {
         return $this->name . ' - ' . $this->user;
+    }
+
+    /**
+     * @return Collection<int, TaskCategories>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(TaskCategories $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->setTaskId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(TaskCategories $category): static
+    {
+        if ($this->categories->removeElement($category)) {
+            // set the owning side to null (unless already changed)
+            if ($category->getTaskId() === $this) {
+                $category->setTaskId(null);
+            }
+        }
+
+        return $this;
     }
 }

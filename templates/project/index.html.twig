@@ -17,6 +17,7 @@
                     <th data-field="user" class="fs-5">Creator <i class="bi bi-arrows-vertical"></i></th>
                     <th data-field="stage" class="fs-5">Stage <i class="bi bi-arrows-vertical"></i></th>
                     <th data-field="createdDate" class="fs-5">Created date <i class="bi bi-arrows-vertical"></i></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -25,7 +26,9 @@
                         <td class="project-name">{{ project.name }}</td>
                         <td class="project-creator">{{ project.user.name }}</td>
                         <td class="project-stage"><span class="p-2 rounded-3">{{ project.stage }}</span></td>
-                        <td class="project-date" data-field="createdDate">{{ project.date|date('Y-m-d H:m:s') }}</td>
+                        <td class="project-date" data-field="createdDate">{{ project.date|date('Y-m-d H:i:s') }}</td>
+                        <td class="task-edit align-middle"><a href="{{ url('app_project_edit', {'id': project.id}) }}" class="btn btn-outline-light pt-0 pb-0"><i class="bi bi-three-dots"></i></a></td>
+
                     </tr>
                 {% endfor %}
                 </tbody>
