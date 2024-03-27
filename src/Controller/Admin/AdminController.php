@@ -2,7 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Categories;
 use App\Entity\Project;
+use App\Entity\Status;
 use App\Entity\Task;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -37,7 +39,7 @@ class AdminController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('Paige Cakes')
-            ->renderSidebarMinimized();
+            ;
     }
 
 
@@ -47,5 +49,7 @@ class AdminController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
         yield MenuItem::linkToCrud('Projects', 'fa fa-folder-open', Project::class);
         yield MenuItem::linkToCrud('Tasks', 'fa fa-tasks', Task::class);
+        yield MenuItem::linkToCrud('Task Categories', 'fa fa-tags', Categories::class);
+        yield MenuItem::linkToCrud('Project Status', 'fa fa-tags', Status::class);
     }
 }

@@ -37,7 +37,7 @@ class TaskController extends AbstractController
         if (!$task) return throw new NotFoundHttpException('Task not found.');
 
         return $this->render('task/detail.html.twig', [
-            'title' => $task->getName(),
+            'title' => 'Task: '. $task->getName(),
             'icon' => 'columns-gap',
             'task' => $task
         ]);

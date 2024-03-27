@@ -33,7 +33,7 @@ class Task
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     private ?Project $project = null;
 
-    #[ORM\OneToMany(targetEntity: TaskCategories::class, mappedBy: 'taskId', orphanRemoval: true)]
+    #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'tasks')]
     private Collection $categories;
 
     public function __construct()
@@ -113,32 +113,27 @@ class Task
     }
 
     /**
-     * @return Collection<int, TaskCategories>
+     * @return Collection<int, Categories>
      */
     public function getCategories(): Collection
     {
         return $this->categories;
     }
 
-    public function addCategory(TaskCategories $category): static
+    public function addCategory(Categories $category): static
     {
         if (!$this->categories->contains($category)) {
             $this->categories->add($category);
-            $category->setTaskId($this);
         }
 
         return $this;
     }
 
-    public function removeCategory(TaskCategories $category): static
+    public function removeCategory(Categories $category): static
     {
-        if ($this->categories->removeElement($category)) {
-            // set the owning side to null (unless already changed)
-            if ($category->getTaskId() === $this) {
-                $category->setTaskId(null);
-            }
-        }
+        $this->categories->removeElement($category);
 
         return $this;
     }
+
 }

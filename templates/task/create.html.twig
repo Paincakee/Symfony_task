@@ -1,11 +1,29 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    {{ form_start(taskForm) }}
-    {{ form_row(taskForm.name) }}
-    {{ form_row(taskForm.description) }}
-{#    {{ form_row(taskForm.userUuid) }}#}
-
-    <button type="submit" class="btn btn-primary">Create</button>
-    {{ form_end(taskForm) }}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {{ form_start(taskForm) }}
+                <div class="form-group">
+                    {{ form_label(taskForm.name, 'Task Name') }}
+                    {{ form_widget(taskForm.name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(taskForm.user, 'Assigned User') }}
+                    {{ form_widget(taskForm.user, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(taskForm.description, 'Description') }}
+                    {{ form_widget(taskForm.description, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(taskForm.categories, 'Categories') }}
+                    {{ form_widget(taskForm.categories, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+                {{ form_end(taskForm) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
